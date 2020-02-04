@@ -61,17 +61,32 @@ def SJF(p):
 
 def RR(p):
     qT = 5
-    n = len(p)
-    L = p[n-1][1]
-    L = int(L/qT+1)
-    processRR = []
-    for y in range(L):
-        for x in range(n):
-            if (p[x][1]-1)/qT==y:
-                processRR.append(p[x])               
-    print("Round Robin (RR) \n")
-    print(processRR)
-    return processRR
+    rem = []
+    wt = [0]*len(p)
+    time = 0
+
+    for i in range(len(p)):
+        rem.append(p[i][1])
+   
+
+    while(1):
+        done = True 
+
+        for i in range(len(p)):
+            if(rem[i] > 0):
+                done = False
+                if(rem[i] > qT):
+                    time += qT
+                    rem[i] -= qT
+                else:
+                    time = time + rem[i]
+                    wt[i] = time - p[i][1]
+                    rem[i] = 0 
+
+        if(done == True):
+          break
+    print(wt)
+    return wt
 
 def plotgraph(g1,g2,g3):
     x1 = []
