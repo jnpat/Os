@@ -2,15 +2,16 @@ import random
 import matplotlib.pyplot as plt
 
 
+
 def random1(n,a,b,c):
     process = []
     process1 = []
     process2 = []
     process3 = []
-    i = int(a*n)
-    j = int(b*n)+i
+    i = int((a/100)*n)
+    j = int((b/100)*n)+i
     for x in range(n):
-        if x<i:
+        if x<=i:
             process1.append((x,random.randint(2,8)))
         elif x<j and x>i:
             process2.append((x,random.randint(20,30)))
@@ -18,64 +19,91 @@ def random1(n,a,b,c):
             process3.append((x,random.randint(35,40)))
     
     process = process1 + process2 + process3
-    
-    FCFS(process)
+    print(process)
     RR(process)
-    SJF(process)
+    # plotgraph(FCFS(process),SJF(process),RR(process)) 
+    
 
   
 def FCFS(p):
-    # turn = []
     wait = [(0,0)]
-    n = len(p)
     time = 0
-    for x in range(n):
+    for x in range(len(p)):
         if x == 0:
             time += p[x][1]
-            # turn.append((p[x][0],p[x][1]))
             wait.append((p[x][0]+1,time))
         else:
             time += p[x][1]
-            # turn.append((p[x][0],time))
             wait.append((p[x][0]+1,time))
     wait.pop()
+
     print("First Come First Served (FCFS) \n")
-    # print("Turn Around Time : " + str(turn) + "\n")
+    print(str(p) + "\n")
     print("Waiting Time : " + str(wait) + "\n")
+    return wait
     
 
 def SJF(p):
-    turn = []
-    n = len(p)
+    wait = []
     time = 0
     p.sort(key = lambda x: x[1])
-    print(str(p)+"\n")
-    for x in range(n):
+    for x in range(len(p)):
         if x == 0:
-            time += p[x][1]
-            turn.append((p[x][0],p[x][1])) 
+            wait.append((p[x][0],time)) 
         else:
-            time += p[x][1]
-            turn.append((p[x][0],time))
-    print(turn)
-    # print("Shortest-Job-First(SJF) : " + str(p) + "\n")
+            time += p[x-1][1]
+            wait.append((p[x][0],time))
+    print("Shortest-Job-First(SJF) \n")
+    print(str(p) + "\n")
+    print("Waiting Time : " + str(wait) + "\n")
+    return wait
     
 
 def RR(p):
     qT = 5
     n = len(p)
     L = p[n-1][1]
-    L = L/qT+1
+    L = int(L/qT+1)
     processRR = []
     for y in range(L):
         for x in range(n):
             if (p[x][1]-1)/qT==y:
                 processRR.append(p[x])               
-    # print("Round Robin (RR) : " + str(processRR) + "\n")
+    print("Round Robin (RR) \n")
+    print(processRR)
+    return processRR
+
+def plotgraph(g1,g2,g3):
+    x1 = []
+    y1 = []
+    x2 = []
+    y2 = []
+    # x3 = []
+    # y3 = []
+    for x in range(len(g1)):
+        x1.append(g1[x][1])
+        y1.append(g1[x][0])
+
+        x2.append(g2[x][1])
+        y2.append(g2[x][0])
+
+        # x3.append(g3[x][1])
+        # y3.append(g3[x][0])
+
+    plt.plot(x1,y1, label = "FCFS")
+    plt.plot(x2,y2, label = "SJF")
+    # plt.plot(x3,y3, label = "RR")
+
+    plt.xlabel('Waiting time(ms)')
+    plt.ylabel('Number Of Process')
+    plt.title('Assumption1')
+    plt.legend()
+
+    plt.show()    
     
 # main
 print("----- Assumption1 -----\n")
-random1(60,0.7,0.2,0.1)
+random1(10,70,20,10)
 # print("----- Assumption2 -----\n")
 # random1(40,0.5,0.3,0.2)
 # print("----- Assumption3 -----\n")
