@@ -19,12 +19,13 @@ def FIFO(refString,check,q1):
             else:
                 hit += 1
 
-    print(str(hit) + "\n" + str(pf))
+    print("Page hit: " + str(hit) + "\n" + "Page faults: " + str(pf))
 
 
 
-#--------------- main
-refString = [1,2,3,4,1,2,5,1,2,3,4,5]
+# --------------- main
+# refString = [1,2,3,4,1,2,5,1,2,3,4,5]
+refString = [7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1]
 check=[0]*3
 q1 = queue.Queue(3)
 FIFO(refString,check,q1)
