@@ -28,7 +28,6 @@ def Optimal(refString):
     hit = 0
     for i in range(len(refString)):
         dis = []
-        check = 0
         if len(stack) < 3 :
             stack.append(refString[i])
             pf += 1 
